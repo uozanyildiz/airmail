@@ -1,11 +1,19 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaulttheme');
 module.exports = {
 	content: ['./src/**/*.{js,jsx,ts,tsx}'],
 	theme: {
 		fontFamily: {
 			sans: 'Inter, sans-serif',
 		},
+		screens: {
+			xs: '480px',
+			...defaultTheme.screens,
+		},
 		extend: {
+			padding: {
+				'16-9': '56.25%',
+			},
 			colors: {
 				primary: '#18978F',
 				'primary-dark': '#16857E',
@@ -17,7 +25,7 @@ module.exports = {
 				'open-grey': '#A5A5A5',
 			},
 			fontSize: {
-				40: '2.5rem',
+				10: '2.5rem',
 			},
 			boxShadow: {
 				generic:
@@ -26,7 +34,7 @@ module.exports = {
 			borderWidth: {
 				6: '6px',
 			},
-			transitionProperty: {},
+
 			maxHeight: {
 				75: '75vh',
 				90: '90vh',

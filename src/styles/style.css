@@ -2,11 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+	.clip-0 {
+		clip: rect(0 0 0 0);
+	}
+
+	.hide-full {
+		@apply absolute overflow-hidden h-px w-px -m-px p-0 border-0 opacity-0 clip-0;
+	}
+}
+
 body {
 	@apply bg-background;
 }
 
 .hide {
-	@apply absolute overflow-hidden h-px w-px -m-px p-0 border-0 opacity-0;
-	clip: rect(0 0 0 0);
+	@apply absolute overflow-hidden h-px w-px -m-px p-0 border-0 opacity-0 clip-0;
 }

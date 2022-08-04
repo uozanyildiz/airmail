@@ -1,52 +1,51 @@
-import { useQuery } from 'react-query/';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 
-const createAccount = (queryInfo) => {
-	const userInfo = queryInfo.queryKey[1];
-	return axios.post('https://api.mail.gw/accounts', {
-		address: userInfo.mailAddress,
-		password: userInfo.password,
+const fetchMail = (queryInfo) => {
+	const { token, mailId } = queryInfo.queryKey[1];
+	return axios.get(`https://api.mail.gw/messages/${mailId}`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
 	});
 };
 
-const getAuthorizationToken = async (queryInfo) => {
-	const userInfo = queryInfo.queryKey[1];
-	const req = await axios.post('https://api.mail.gw/token', {
-		address: userInfo.mailAddress,
-		password: userInfo.password,
-	});
-	return req.data.token;
+const updateMailAsSeen = (queryInfo) => {
+	const { token, mailId } = queryInfo.queryKey[1];
+	return axios.patch(
+		`https://api.mail.gw/messages/${mailId}`,
+		{
+			seen: true,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-type': 'application/merge-patch+json',
+			},
+		}
+	);
 };
 
-export const useMail = (
-	mail,
-	password,
-	onCreateAccountError = () => {},
-	onAuthorizationTokenSuccess = () => {}
-) => {
-	const { data: account } = useQuery(
-		['createAccount', { mail, password }],
-		createAccount,
-		{
-			onError: onCreateAccountError,
-			cacheTime: 10 * 1000 * 60,
-			staleTime: 10 * 1000 * 60,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
-		}
-	);
+const mailSelector = (data) => {
+	console.log(data);
+	return {
+		from: data.data.from,
+		subject: data.data.subject,
+		date: data.data.createdAt,
+		content: data.data.html,
+	};
+};
 
-	return useQuery(
-		['getAuthorizationToken', { mail, password }],
-		getAuthorizationToken,
-		{
-			enabled: !!account,
-			onSuccess: onAuthorizationTokenSuccess,
-			cacheTime: 10 * 1000 * 60,
-			staleTime: 10 * 1000 * 60,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
-			select: (data) => data.req.data.token,
-		}
-	);
+export const useMail = (token, mailId) => {
+	useQuery(['updateAsSeen', { token, mailId }], updateMailAsSeen, {
+		enabled: !!mailId,
+		staleTime: Infinity,
+	});
+	const mailQuery = useQuery(['fetchMail', { token, mailId }], fetchMail, {
+		enabled: !!mailId,
+		staleTime: Infinity,
+		select: mailSelector,
+	});
+
+	return mailQuery;
 };
