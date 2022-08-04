@@ -35,14 +35,14 @@ const MailboxItem = (props) => {
 			<span className='text-sm text-open-grey w-5/6'>from {sender}</span>
 			<div className='md:mt-3 sm:mt-0'>
 				<h3
-					className='text-primary-dark font-medium text-lg inline-block transition-colors hover:text-primary cursor-pointer break-words'
+					className='text-primary-dark font-medium text-lg inline-block transition-colors hover:text-primary cursor-pointer'
 					onClick={onOpenMail}
 				>
 					{subject}
 				</h3>
 			</div>
 			<p
-				className={`text-sm font-medium break-words ${
+				className={`text-sm font-medium ${
 					!isMailOpened ? 'text-black' : 'text-subtext'
 				}`}
 			>
@@ -100,10 +100,10 @@ const MailContent = (props) => {
 					<span className='align-middle'>Back</span>
 				</div>
 				<div className='flex flex-col justify-center xs:flex-row xs:justify-between gap-4'>
-					<h2 className='sm:text-xl md:text-2xl lg:text-4xl font-medium text-primary'>
+					<h2 className='sm:text-lg md:text-xl lg:text-4xl font-medium text-primary'>
 						{mailQuery.data.subject}
 					</h2>
-					<div className='text-xs md:text-sm text-light-grey xs:text-right flex-shrink-0'>
+					<div className='text-xs lg:text-sm text-light-grey xs:text-right flex-shrink-0'>
 						<span className='block'>{dateText}</span>
 						<span className='block'>{normalDate}</span>
 					</div>

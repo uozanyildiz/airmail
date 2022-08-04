@@ -1,16 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaulttheme');
+// const defaultTheme = require('tailwindcss/defaulttheme');
 module.exports = {
 	content: ['./src/**/*.{js,jsx,ts,tsx}'],
 	theme: {
 		fontFamily: {
 			sans: 'Inter, sans-serif',
 		},
-		screens: {
-			xs: '480px',
-			...defaultTheme.screens,
-		},
+		// screens: {
+		// 	xs: '480px',
+		// },
 		extend: {
+			screens: {
+				xs: '480px',
+			},
 			padding: {
 				'16-9': '56.25%',
 			},
