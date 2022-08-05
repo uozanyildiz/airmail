@@ -232,7 +232,7 @@ const MailScreen = () => {
 	};
 
 	// Loading state
-	if (meQuery.isLoading || mailQuery.isLoading) {
+	if (meQuery.isLoading || mailQuery.isLoading || mailQuery.isRefetching) {
 		return (
 			<>
 				<Header mail={meQuery.data} />
