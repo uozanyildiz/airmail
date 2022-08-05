@@ -11,7 +11,6 @@ const fetchMails = (queryInfo) => {
 };
 
 const mailListSelector = (data) => {
-	if (data.data['hydra:member'].length === 0) return [];
 	return data.data['hydra:member'].map((mail) => {
 		return {
 			id: mail.id,
@@ -28,6 +27,7 @@ export const useMailbox = (token) => {
 	return useQuery(['fetchMails', token], fetchMails, {
 		enabled: !!token,
 		select: mailListSelector,
-		refetchInterval: 15 * 1000,
+		refetchOnMount: false,
+		refetchOnWindowFocus: false,
 	});
 };

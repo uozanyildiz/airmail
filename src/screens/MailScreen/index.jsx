@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as UserIcon } from '../../assets/icons/user.svg';
 import { ReactComponent as CopyIcon } from '../../assets/icons/document-copy.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/icons/logout.svg';
+import { ReactComponent as SyncIcon } from '../../assets/icons/sync.svg';
+
 import { AiOutlineLoading } from 'react-icons/ai';
 import { FaSadTear } from 'react-icons/fa';
 import { MdArrowBackIos } from 'react-icons/md';
@@ -12,8 +14,15 @@ import { getLocalizedDate, getRelativeDate } from '../../utils/date';
 import { UserContext } from '../../context/userContext';
 import { useMe } from '../../hooks/query/useMe';
 
-const MailboxItem = (props) => {
-	const { date, from, id, intro, onClick, seen: hasSeen, subject } = props;
+const MailboxItem = ({
+	date,
+	from,
+	id,
+	intro,
+	onClick,
+	seen: hasSeen,
+	subject,
+}) => {
 	const [isMailOpened, setIsMailOpened] = useState(hasSeen);
 	const sender =
 		from.name !== '' ? `${from.name} (${from.address})` : from.address;
@@ -52,8 +61,7 @@ const MailboxItem = (props) => {
 	);
 };
 
-const MailContent = (props) => {
-	const { token, id, isOpen, onClose } = props;
+const MailContent = ({ token, id, isOpen, onClose }) => {
 	const mailQuery = useMail(token, id);
 
 	//When loading data
@@ -123,7 +131,9 @@ const MailContent = (props) => {
 	);
 };
 
-const Header = ({ mail }) => {
+const Header = (props) => {
+	console.log(props);
+	const { onSync, mail } = props;
 	const userContext = useContext(UserContext);
 	const navigate = useNavigate();
 
@@ -162,14 +172,22 @@ const Header = ({ mail }) => {
 				)}
 			</div>
 			{/* Logout button */}
-			<div className='flex flex-col gap-6 items-end'>
+			<div className='flex gap-6 items-end'>
+				<button
+					onClick={onSync}
+					className='group px-4 py-2 xs:px-6 xs:py-3 border-2 bg-primary border-primary shadow-generic rounded-lg transition-all hover:scale-110 text-white'
+				>
+					<SyncIcon className='inline group-hover:rotate-180 transition-all duration-300' />
+					<span className='text-sm font-medium ml-3'>Sync</span>
+				</button>
 				<button
 					onClick={onLogout}
-					className='group px-4 py-2 xs:px-6 xs:py-3 border border-primary shadow-generic rounded-lg transition-all hover:scale-110'
+					className='px-4 py-2 xs:px-6 xs:py-3 border border-primary shadow-generic rounded-lg transition-all hover:scale-110'
 				>
 					<LogoutIcon className='inline' />
 					<span className='text-sm font-medium ml-3'>Logout</span>
 				</button>
+
 				{/* TODO: Progress bar */}
 				{/* <div className='relative'>
 					<span className='text-subtext text-base'>
@@ -209,6 +227,10 @@ const MailScreen = () => {
 	const meQuery = useMe(userContext.user);
 	const mailQuery = useMailbox(userContext.user);
 
+	const onSync = () => {
+		mailQuery.refetch();
+	};
+
 	// Loading state
 	if (meQuery.isLoading || mailQuery.isLoading) {
 		return (
@@ -245,7 +267,7 @@ const MailScreen = () => {
 	if (mailQuery.data.length === 0) {
 		return (
 			<>
-				<Header mail={meQuery.data} />
+				<Header mail={meQuery.data} onSync={onSync} />
 				<div className='h-px w-full bg-dark-grey60 mb-8' />
 				<div className='flex flex-col items-center my-8 mx-6 xs:mx-12 sm:mx-24 text-center'>
 					<h5 className='text-subtext text-lg sm:text-xl md:text-2xl mt-6 sm:mt-12'>
@@ -258,7 +280,7 @@ const MailScreen = () => {
 
 	return (
 		<>
-			<Header mail={meQuery.data} />
+			<Header mail={meQuery.data} onSync={onSync} />
 			<div className='h-px w-full bg-dark-grey60 md:mb-8' />
 			{/* md:ml-24 md:mr-32 md:pb-12 */}
 			<main className='md:ml-24 md:mr-32'>

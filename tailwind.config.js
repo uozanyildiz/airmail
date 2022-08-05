@@ -1,14 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-// const defaultTheme = require('tailwindcss/defaulttheme');
 module.exports = {
 	content: ['./src/**/*.{js,jsx,ts,tsx}'],
 	theme: {
 		fontFamily: {
 			sans: 'Inter, sans-serif',
 		},
-		// screens: {
-		// 	xs: '480px',
-		// },
 		extend: {
 			screens: {
 				xs: '480px',
@@ -36,7 +32,6 @@ module.exports = {
 			borderWidth: {
 				6: '6px',
 			},
-
 			maxHeight: {
 				75: '75vh',
 				90: '90vh',
