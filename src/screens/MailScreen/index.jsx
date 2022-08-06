@@ -132,7 +132,6 @@ const MailContent = ({ token, id, isOpen, onClose }) => {
 };
 
 const Header = (props) => {
-	console.log(props);
 	const { onSync, mail } = props;
 	const userContext = useContext(UserContext);
 	const navigate = useNavigate();

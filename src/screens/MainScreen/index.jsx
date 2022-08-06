@@ -45,8 +45,6 @@ const MainScreen = () => {
 		setMailAddress(generateAddress(newMailAddress, domain));
 	};
 
-	console.log(registerQuery.isLoading, loginQuery.isLoading, userContext);
-
 	return (
 		<>
 			<header className='text-center mt-16'>
