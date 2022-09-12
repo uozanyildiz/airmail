@@ -10,8 +10,8 @@ import { FaSadTear } from 'react-icons/fa';
 import { MdArrowBackIos } from 'react-icons/md';
 import { useMailbox } from '../../hooks/query/useMailbox';
 import { useMail } from '../../hooks/query/useMail';
-import { getLocalizedDate, getRelativeDate } from '../../utils/date';
-import { UserContext } from '../../context/userContext';
+import { getLocalizedDate, getRelativeDate } from '../../utils/date.tsx';
+import { UserContext } from '../../context/userContext.tsx';
 import { useMe } from '../../hooks/query/useMe';
 
 const MailboxItem = ({

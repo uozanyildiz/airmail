@@ -1,4 +1,4 @@
-export const generateRandomString = () => {
+export const generateRandomString = (): string => {
 	const length = 16;
 	const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
 	let result = '';
@@ -8,4 +8,5 @@ export const generateRandomString = () => {
 	return result;
 };
 
-export const generateAddress = (mail, domain) => `${mail}@${domain}`;
+export const generateAddress = (mail: string, domain: string): string =>
+	`${mail}@${domain}`;

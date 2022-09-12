@@ -6,17 +6,18 @@ import { FaSadTear } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import { useDomain } from '../../hooks/query/useDomain';
 import { useRegister } from '../../hooks/query/useRegister';
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../context/userContext.tsx';
 import { useAuth } from '../../hooks/query/useAuth';
-import { generateRandomString, generateAddress } from '../../utils/mail';
+import { generateRandomString, generateAddress } from '../../utils/mail.tsx';
 const password = generateRandomString();
 
 const MainScreen = () => {
 	const [domain, setDomain] = useState('');
 	const [mailAddress, setMailAddress] = useState('');
 	const navigate = useNavigate();
-	const registerQuery = useRegister(mailAddress, password);
 	const userContext = useContext(UserContext);
+
+	const registerQuery = useRegister(mailAddress, password);
 
 	const onSuccess = (availableDomains) => {
 		const firstAvailableDomain = availableDomains.filter(
