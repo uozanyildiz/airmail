@@ -1,4 +1,4 @@
-import { QueryKey, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 
 export interface IDomainResponse {

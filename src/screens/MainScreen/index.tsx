@@ -11,7 +11,7 @@ import { useAuth } from '../../hooks/query/useAuth';
 import { generateRandomString, generateAddress } from '../../utils/mail';
 const password = generateRandomString();
 
-const MainScreen = () => {
+const MainScreen: React.FC = () => {
 	const [domain, setDomain] = useState('');
 	const [mailAddress, setMailAddress] = useState('');
 	const navigate = useNavigate();

@@ -14,16 +14,6 @@ import { getLocalizedDate, getRelativeDate } from '../../utils/date';
 import { UserContext } from '../../context/userContext';
 import { useMe } from '../../hooks/query/useMe';
 
-interface IMailboxItemProps {
-	date: string;
-	from: { name: string; address: string };
-	id: string;
-	intro: string;
-	onClick: (id: string) => void;
-	seen: boolean;
-	subject: string;
-}
-
 const MailboxItem: React.FC<IMailboxItemProps> = ({
 	date,
 	from,
@@ -70,13 +60,6 @@ const MailboxItem: React.FC<IMailboxItemProps> = ({
 		</div>
 	);
 };
-
-interface IMailContentProps {
-	token: string;
-	id: string;
-	isOpen: boolean;
-	onClose: () => void;
-}
 
 const MailContent: React.FC<IMailContentProps> = ({
 	token,
@@ -153,12 +136,7 @@ const MailContent: React.FC<IMailContentProps> = ({
 	);
 };
 
-interface IHeaderProps {
-	onSync?: () => void;
-	mail?: string;
-}
-
-const Header = ({ onSync, mail }: IHeaderProps) => {
+const Header: React.FC<IHeaderProps> = ({ onSync, mail }) => {
 	const userContext = useContext(UserContext);
 	const navigate = useNavigate();
 
@@ -230,7 +208,7 @@ const Header = ({ onSync, mail }: IHeaderProps) => {
 	);
 };
 
-const MailScreen = () => {
+const MailScreen: React.FC = () => {
 	const navigate = useNavigate();
 	const userContext = useContext(UserContext);
 	const [selectedMailId, setSelectedMailId] = useState('');
@@ -339,5 +317,27 @@ const MailScreen = () => {
 		</>
 	);
 };
+
+interface IMailboxItemProps {
+	date: string;
+	from: { name: string; address: string };
+	id: string;
+	intro: string;
+	onClick: (id: string) => void;
+	seen: boolean;
+	subject: string;
+}
+
+interface IMailContentProps {
+	token: string;
+	id: string;
+	isOpen: boolean;
+	onClose: () => void;
+}
+
+interface IHeaderProps {
+	onSync?: () => void;
+	mail?: string;
+}
 
 export default MailScreen;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { QueryFunctionContext, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
 interface IRegisterQuery {
 	mail: string;
