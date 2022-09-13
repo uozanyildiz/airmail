@@ -1,8 +1,17 @@
 import axios from 'axios';
-import { QueryFunctionContext, useQuery } from 'react-query';
+import { QueryFunctionContext, QueryKey, useQuery } from 'react-query';
 
 interface IMailboxQuery {
-	token: string;
+	token?: string;
+}
+
+interface IMailItem {
+	id: string;
+	from: { address: string; name: string };
+	subject: string;
+	intro: string;
+	seen: boolean;
+	date: string;
 }
 
 interface IMailboxResponse {
@@ -40,8 +49,13 @@ interface IMailboxResponse {
 	'hydra:totalItems': string;
 }
 
+interface IMailboxError {
+	code: number;
+	message: string;
+}
+
 const fetchMails = async (
-	queryInfo: QueryFunctionContext<[string, IMailboxQuery]>
+	queryInfo: QueryFunctionContext<[QueryKey, IMailboxQuery['token']]>
 ) => {
 	const token = queryInfo.queryKey[1];
 	const response = await axios.get<IMailboxResponse>(
@@ -68,8 +82,13 @@ const mailListSelector = (data: IMailboxResponse) => {
 	});
 };
 
-export const useMailbox = (token: IMailboxQuery) => {
-	return useQuery(['fetchMails', token], fetchMails, {
+export const useMailbox = (token: IMailboxQuery['token']) => {
+	return useQuery<
+		IMailboxResponse,
+		IMailboxError,
+		IMailItem[],
+		[QueryKey, IMailboxQuery['token']]
+	>(['fetchMails', token], fetchMails, {
 		enabled: !!token,
 		select: mailListSelector,
 		refetchOnMount: false,

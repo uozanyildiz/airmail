@@ -1,7 +1,7 @@
-import { useQuery } from 'react-query';
+import { QueryKey, useQuery } from 'react-query';
 import axios from 'axios';
 
-interface IDomainResponse {
+export interface IDomainResponse {
 	'@context': string;
 	'@id': string;
 	'@type': string;
@@ -14,7 +14,7 @@ interface IDomainResponse {
 			id: string;
 			isActive: boolean;
 			updatedAt: string;
-		}?
+		}
 	];
 	'hydra:totalItems': number;
 }
@@ -26,12 +26,15 @@ const fetchDomain = async () => {
 	return response.data;
 };
 
-export const useDomain = (onSuccess = () => {}) => {
-	return useQuery('fetchDomain', fetchDomain, {
-		//30 minutes of cache and stale time
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
-		onSuccess,
-		select: (data) => data['hydra:member'],
-	});
+export const useDomain = (onSuccess: (data: IDomainResponse) => void) => {
+	return useQuery<IDomainResponse, Error, IDomainResponse, string>(
+		'fetchDomain',
+		fetchDomain,
+		{
+			//30 minutes of cache and stale time
+			refetchOnReconnect: false,
+			refetchOnWindowFocus: false,
+			onSuccess,
+		}
+	);
 };

@@ -21,9 +21,7 @@ interface IRegisterResponse {
 	retentionAt: boolean;
 }
 
-const createAccount = async (
-	queryInfo: QueryFunctionContext<[string, IRegisterQuery]>
-) => {
+const createAccount = async (queryInfo): Promise<IRegisterResponse> => {
 	const userInfo = queryInfo.queryKey[1];
 	const response = await axios.post<IRegisterResponse>(
 		'https://api.mail.gw/accounts',
@@ -39,7 +37,7 @@ export const useRegister = (
 	mail: IRegisterQuery['mail'],
 	password: IRegisterQuery['password']
 ) => {
-	const register = useQuery(
+	const register = useQuery<IRegisterResponse, Error>(
 		['createAccount', { mail, password }],
 		createAccount,
 		{

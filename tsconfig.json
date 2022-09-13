@@ -18,6 +18,7 @@
 		"jsx": "react-jsx",
 		"baseUrl": "./src"
 	},
+	"include": ["src/", "custom.d.ts"],
 	"ts-node": {
 		"compilerOptions": {
 			"esModuleInterop": true,

@@ -4,11 +4,11 @@ import { AiOutlineLoading } from 'react-icons/ai';
 import { FiRefreshCw } from 'react-icons/fi';
 import { FaSadTear } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
-import { useDomain } from '../../hooks/query/useDomain';
+import { IDomainResponse, useDomain } from '../../hooks/query/useDomain';
 import { useRegister } from '../../hooks/query/useRegister';
-import { UserContext } from '../../context/userContext.tsx';
+import { UserContext } from '../../context/userContext';
 import { useAuth } from '../../hooks/query/useAuth';
-import { generateRandomString, generateAddress } from '../../utils/mail.tsx';
+import { generateRandomString, generateAddress } from '../../utils/mail';
 const password = generateRandomString();
 
 const MainScreen = () => {
@@ -19,8 +19,8 @@ const MainScreen = () => {
 
 	const registerQuery = useRegister(mailAddress, password);
 
-	const onSuccess = (availableDomains) => {
-		const firstAvailableDomain = availableDomains.filter(
+	const onSuccess = (availableDomains: IDomainResponse) => {
+		const firstAvailableDomain = availableDomains['hydra:member'].filter(
 			(domain) => domain.isActive === true
 		)[0].domain;
 		const randomAddress = generateRandomString();
@@ -68,8 +68,8 @@ const MainScreen = () => {
 							</p>
 							<p className='text-subtext text-base mt-2'>
 								{domainQuery.isError
-									? domainQuery.error.message
-									: registerQuery.error.message}
+									? domainQuery.error?.message
+									: registerQuery.error?.message}
 							</p>
 						</div>
 					)}

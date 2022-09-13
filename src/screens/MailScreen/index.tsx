@@ -10,11 +10,21 @@ import { FaSadTear } from 'react-icons/fa';
 import { MdArrowBackIos } from 'react-icons/md';
 import { useMailbox } from '../../hooks/query/useMailbox';
 import { useMail } from '../../hooks/query/useMail';
-import { getLocalizedDate, getRelativeDate } from '../../utils/date.tsx';
-import { UserContext } from '../../context/userContext.tsx';
+import { getLocalizedDate, getRelativeDate } from '../../utils/date';
+import { UserContext } from '../../context/userContext';
 import { useMe } from '../../hooks/query/useMe';
 
-const MailboxItem = ({
+interface IMailboxItemProps {
+	date: string;
+	from: { name: string; address: string };
+	id: string;
+	intro: string;
+	onClick: (id: string) => void;
+	seen: boolean;
+	subject: string;
+}
+
+const MailboxItem: React.FC<IMailboxItemProps> = ({
 	date,
 	from,
 	id,
@@ -28,7 +38,7 @@ const MailboxItem = ({
 		from.name !== '' ? `${from.name} (${from.address})` : from.address;
 	const dateText = getRelativeDate(date);
 
-	const onOpenMail = () => {
+	const onOpenMail = (): void => {
 		onClick(id);
 		setIsMailOpened(true);
 	};
@@ -61,7 +71,19 @@ const MailboxItem = ({
 	);
 };
 
-const MailContent = ({ token, id, isOpen, onClose }) => {
+interface IMailContentProps {
+	token: string;
+	id: string;
+	isOpen: boolean;
+	onClose: () => void;
+}
+
+const MailContent: React.FC<IMailContentProps> = ({
+	token,
+	id,
+	isOpen,
+	onClose,
+}) => {
 	const mailQuery = useMail(token, id);
 
 	//When loading data
@@ -123,7 +145,7 @@ const MailContent = ({ token, id, isOpen, onClose }) => {
 					<iframe
 						className='w-full h-5/6'
 						title='mail-content'
-						srcDoc={mailQuery.data.content}
+						srcDoc={mailQuery.data.content.toString()}
 					></iframe>
 				</div>
 			</div>
@@ -131,12 +153,17 @@ const MailContent = ({ token, id, isOpen, onClose }) => {
 	);
 };
 
-const Header = (props) => {
-	const { onSync, mail } = props;
+interface IHeaderProps {
+	onSync?: () => void;
+	mail?: string;
+}
+
+const Header = ({ onSync, mail }: IHeaderProps) => {
 	const userContext = useContext(UserContext);
 	const navigate = useNavigate();
 
 	const onCopy = () => {
+		if (!mail) return;
 		navigator.clipboard.writeText(mail);
 	};
 
@@ -230,8 +257,14 @@ const MailScreen = () => {
 		mailQuery.refetch();
 	};
 
+	const isLoading =
+		meQuery.isLoading ||
+		mailQuery.isLoading ||
+		mailQuery.isRefetching ||
+		!userContext.user;
+
 	// Loading state
-	if (meQuery.isLoading || mailQuery.isLoading || mailQuery.isRefetching) {
+	if (isLoading) {
 		return (
 			<>
 				<Header mail={meQuery.data} />
@@ -247,8 +280,7 @@ const MailScreen = () => {
 	// Error state
 	if (meQuery.isError || mailQuery.isError) {
 		const error = meQuery.error || mailQuery.error;
-		const errorTitle = error.response.data.message;
-
+		const errorTitle = error?.message;
 		return (
 			<>
 				<Header mail={meQuery.data} />
@@ -263,7 +295,7 @@ const MailScreen = () => {
 		);
 	}
 
-	if (mailQuery.data.length === 0) {
+	if (mailQuery.data!.length === 0) {
 		return (
 			<>
 				<Header mail={meQuery.data} onSync={onSync} />
@@ -291,13 +323,13 @@ const MailScreen = () => {
 							isContentOpen ? 'hide-full w-2/6' : 'w-full'
 						}`}
 					>
-						{mailQuery.data.map((mail) => (
+						{mailQuery.data!.map((mail) => (
 							<MailboxItem key={mail.id} onClick={onOpen} {...mail} />
 						))}
 					</div>
 					{/* Mailbox */}
 					<MailContent
-						token={userContext.user}
+						token={userContext.user!}
 						id={selectedMailId}
 						isOpen={isContentOpen}
 						onClose={onClose}
