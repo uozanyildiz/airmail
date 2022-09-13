@@ -5,7 +5,7 @@ import MainScreen from './screens/MainScreen/index';
 import MailScreen from './screens/MailScreen';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { UserContextProvider } from './context/userContext';
+import { UserContextProvider } from './context/userContext.tsx';
 
 const queryClient = new QueryClient();
 
