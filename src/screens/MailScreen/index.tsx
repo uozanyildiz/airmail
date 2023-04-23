@@ -165,7 +165,7 @@ const Header: React.FC<IHeaderProps> = ({ onSync, mail }) => {
 				{mail && (
 					<div className='items-center'>
 						<UserIcon className='inline-block align-middle h-4 w-4 xs:h-6 xs:w-6 sm:h-8 sm:w-8 ' />
-						<span className='ml-2 xs:ml-4 align-middle text-sm xs:text-base'>
+						<span className='ml-2 xs:ml-4 align-middle text-sm sm:text-base'>
 							{mail}
 						</span>
 						<CopyIcon
@@ -214,7 +214,7 @@ const MailScreen: React.FC = () => {
 	const [selectedMailId, setSelectedMailId] = useState('');
 	const [isContentOpen, setIsContentOpen] = useState(false);
 
-	const onOpen = (mailId) => {
+	const onOpen = (mailId: string) => {
 		setSelectedMailId(mailId);
 		setIsContentOpen(true);
 	};
@@ -226,7 +226,7 @@ const MailScreen: React.FC = () => {
 	useEffect(() => {
 		if (userContext.user) return;
 		navigate('/');
-	}, []);
+	}, [navigate, userContext.user]);
 
 	const meQuery = useMe(userContext.user);
 	const mailQuery = useMailbox(userContext.user);

@@ -34,7 +34,7 @@ const MainScreen: React.FC = () => {
 	useEffect(() => {
 		if (!userContext.user) return;
 		navigate('/mail');
-	}, [userContext.user]);
+	}, [navigate, userContext.user]);
 
 	const onStart = () => {
 		registerQuery.refetch();
@@ -90,13 +90,13 @@ const MainScreen: React.FC = () => {
 						domain && (
 							<>
 								<div className='flex items-center justify-between bg-white rounded-lg sm:rounded-3xl shadow-generic'>
-									<div className='flex gap-2 sm:gap-4 w-72 sm:w-96 ml-2 sm:ml-4 items-center'>
-										<IoMailOutline className='text-dark-grey w-4 h-4 sm:w-6 sm:h-6 ' />
+									<div className='flex gap-2 sm:gap-4 ml-2 sm:ml-4 items-center grow'>
+										<IoMailOutline className='text-dark-grey w-4 h-4 sm:w-6 sm:h-6 shrink-0' />
 										<span className='text-sm sm:text-base'>{mailAddress}</span>
 									</div>
 									<div
 										onClick={onGenerate}
-										className='group bg-primary px-3 py-3 sm:px-5 sm:py-5 rounded-lg sm:rounded-2xl rounded-l-none sm:rounded-l-none cursor-pointer hover:bg-primary-dark transition-colors duration-300'
+										className='group bg-primary ml-5 p-3 sm:p-5 rounded-lg sm:rounded-2xl rounded-l-none sm:rounded-l-none cursor-pointer hover:bg-primary-dark transition-colors duration-300 select-none'
 									>
 										<FiRefreshCw className='text-white w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 ease-in-out group-hover:rotate-180 group-active:scale-125 ' />
 									</div>
