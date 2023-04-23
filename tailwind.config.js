@@ -21,6 +21,8 @@ module.exports = {
 				subtext: '#7B7B7B',
 				'light-grey': '#484848',
 				'open-grey': '#A5A5A5',
+				'grey-night': '#22272e',
+				'primary-night': '#0e635e',
 			},
 			fontSize: {
 				10: '2.5rem',

@@ -47,11 +47,11 @@ const MainScreen: React.FC = () => {
 	};
 
 	return (
-		<>
-			<header className='text-center mt-16'>
-				<a href='/' className='group font-medium text-10 '>
+		<div className='dark:bg-grey-night bg-white'>
+			<header className='text-center pt-16'>
+				<a href='/' className='group dark:text-gray-200 font-medium text-10 '>
 					airmail
-					<p className='inline-block text-primary transition-all group-hover:scale-125 group-hover:-translate-y-1'>
+					<p className='inline-block text-primary dark:text-primary-night transition-all group-hover:scale-125 group-hover:-translate-y-1'>
 						.
 					</p>
 				</a>
@@ -61,7 +61,7 @@ const MainScreen: React.FC = () => {
 					{/* Error state */}
 					{(domainQuery.isError || registerQuery.isError) && (
 						<div className='flex flex-col items-center relative'>
-							<FaSadTear className='text-8xl text-primary' />
+							<FaSadTear className='text-8xl text-primary dark:text-primary-night' />
 							<p className='text-subtext text-2xl mt-12'>
 								Oops! Something went wrong while loading page. Maybe try again
 								in 1-2 minutes.
@@ -73,12 +73,13 @@ const MainScreen: React.FC = () => {
 							</p>
 						</div>
 					)}
+					{/* Loading state */}
 					{(domainQuery.isLoading ||
 						registerQuery.isLoading ||
 						loginQuery.isLoading) && (
 						<div className='relative'>
 							<div className='rounded-full border-4 w-12 h-12 absolute'></div>
-							<AiOutlineLoading className='text-5xl text-primary animate-spin' />
+							<AiOutlineLoading className='text-5xl text-primary dark:text-primary-night animate-spin' />
 						</div>
 					)}
 					{/* Get started */}
@@ -89,14 +90,14 @@ const MainScreen: React.FC = () => {
 						!loginQuery.isLoading &&
 						domain && (
 							<>
-								<div className='flex items-center justify-between bg-white rounded-lg sm:rounded-3xl shadow-generic'>
+								<div className='flex items-center justify-between bg-white dark:bg-gray-200 rounded-lg sm:rounded-3xl shadow-generic '>
 									<div className='flex gap-2 sm:gap-4 ml-2 sm:ml-4 items-center grow'>
 										<IoMailOutline className='text-dark-grey w-4 h-4 sm:w-6 sm:h-6 shrink-0' />
 										<span className='text-sm sm:text-base'>{mailAddress}</span>
 									</div>
 									<div
 										onClick={onGenerate}
-										className='group bg-primary ml-5 p-3 sm:p-5 rounded-lg sm:rounded-2xl rounded-l-none sm:rounded-l-none cursor-pointer hover:bg-primary-dark transition-colors duration-300 select-none'
+										className='group bg-primary dark:bg-primary-night ml-5 p-3 sm:p-5 rounded-lg sm:rounded-2xl rounded-l-none sm:rounded-l-none cursor-pointer hover:bg-primary-dark transition-colors duration-300 select-none'
 									>
 										<FiRefreshCw className='text-white w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 ease-in-out group-hover:rotate-180 group-active:scale-125 ' />
 									</div>
@@ -104,20 +105,20 @@ const MainScreen: React.FC = () => {
 								{/* Start with this e-mail */}
 								<button
 									onClick={onStart}
-									className='mt-8 sm:mt-12 px-6 sm:px-8 py-3 sm:py-4 shadow-generic bg-primary font-semibold text-sm text-white rounded-lg hover:bg-primary-dark transition-colors duration-300'
+									className='mt-8 sm:mt-12 px-6 sm:px-8 py-3 sm:py-4 shadow-generic dark:shadow-transparent bg-primary dark:bg-primary-night font-semibold text-sm dark:text-gray-200 text-white rounded-lg hover:bg-primary-dark transition-colors duration-300'
 								>
 									Start with this e-mail
 								</button>
 							</>
 						)}
 					{/* Break */}
-					<div className='mt-16 w-screen bg-dark-grey opacity-60 h-px ' />
+					<div className='mt-16 w-screen bg-primary-dark dark:bg-primary-night opacity-60 h-px ' />
 					{/* About us */}
 					<div className='flex flex-col-reverse items-center xl:flex-row self-start w-full justify-center '>
 						<div className='flex flex-col gap-12 sm:gap-20 px-12 py-8 sm:px-16 sm:py-12 md:px-24 md:py-16'>
 							<div className='max-w-xl'>
 								<div className='flex flex-col items-start sm:w-1/2'>
-									<h3 className='font-medium text-2xl sm:text-3xl'>
+									<h3 className='font-medium text-2xl sm:text-3xl dark:text-gray-200'>
 										What is <span className='text-primary'>airmail</span>?
 									</h3>
 									<img
@@ -134,7 +135,7 @@ const MainScreen: React.FC = () => {
 							</div>
 							<div className='max-w-xl'>
 								<div className='flex flex-col items-start'>
-									<h3 className='font-medium text-xl sm:text-3xl'>
+									<h3 className='font-medium text-xl sm:text-3xl dark:text-gray-200'>
 										Can I recover my{' '}
 										<span className='text-primary'> previous e-mails?</span>
 									</h3>
@@ -167,7 +168,7 @@ const MainScreen: React.FC = () => {
 					</div>
 				</div>
 			</main>
-		</>
+		</div>
 	);
 };
 
