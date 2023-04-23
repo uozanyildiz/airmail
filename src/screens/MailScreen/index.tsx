@@ -151,11 +151,11 @@ const Header: React.FC<IHeaderProps> = ({ onSync, mail }) => {
 	};
 
 	return (
-		<header className='my-8 mx-6 xs:mx-12 sm:mx-24 flex flex-col gap-8 md:flex-row md:gap-0 items-start md:items-center justify-between'>
+		<header className='py-8 px-6 xs:px-12 sm:px-24 flex flex-col gap-8 md:flex-row md:gap-0 items-start md:items-center justify-between dark:bg-grey-night bg-white'>
 			<div className='flex flex-col items-start gap-4'>
 				<a
 					href='/'
-					className='group font-medium text-2xl xs:text-3xl sm:text-4xl'
+					className='group font-medium text-2xl xs:text-3xl sm:text-4xl text-gray-200'
 				>
 					airmail
 					<p className='inline-block text-primary transition-all group-hover:scale-125 group-hover:-translate-y-1'>
@@ -164,8 +164,8 @@ const Header: React.FC<IHeaderProps> = ({ onSync, mail }) => {
 				</a>
 				{mail && (
 					<div className='items-center'>
-						<UserIcon className='inline-block align-middle h-4 w-4 xs:h-6 xs:w-6 sm:h-8 sm:w-8 ' />
-						<span className='ml-2 xs:ml-4 align-middle text-sm sm:text-base'>
+						<UserIcon className='inline-block dark:fill-gray-400 align-middle h-4 w-4 xs:h-6 xs:w-6 sm:h-8 sm:w-8 ' />
+						<span className='ml-2 xs:ml-4 align-middle text-sm sm:text-base dark:text-gray-300'>
 							{mail}
 						</span>
 						<CopyIcon
@@ -175,18 +175,18 @@ const Header: React.FC<IHeaderProps> = ({ onSync, mail }) => {
 					</div>
 				)}
 			</div>
-			{/* Logout button */}
+			{/* Logout & sync button */}
 			<div className='flex gap-6 items-end'>
 				<button
 					onClick={onSync}
-					className='group px-4 py-2 xs:px-6 xs:py-3 border-2 bg-primary border-primary shadow-generic rounded-lg transition-all hover:scale-110 text-white'
+					className='group px-4 py-2 xs:px-6 xs:py-3 border-2 dark:shadow-transparent bg-primary border-primary shadow-generic rounded-lg transition-all hover:scale-110 text-white'
 				>
 					<SyncIcon className='inline group-hover:rotate-180 transition-all duration-300' />
 					<span className='text-sm font-medium ml-3'>Sync</span>
 				</button>
 				<button
 					onClick={onLogout}
-					className='px-4 py-2 xs:px-6 xs:py-3 border border-primary shadow-generic rounded-lg transition-all hover:scale-110'
+					className='px-4 py-2 xs:px-6 xs:py-3 border dark:text-gray-300 dark:shadow-transparent border-primary shadow-generic rounded-lg transition-all hover:scale-110'
 				>
 					<LogoutIcon className='inline' />
 					<span className='text-sm font-medium ml-3'>Logout</span>
@@ -198,7 +198,7 @@ const Header: React.FC<IHeaderProps> = ({ onSync, mail }) => {
 						Expiring in 9 minutes 59 seconds
 					</span>
 					<div
-						style={{ width: `${expiringPercentage}%` }}
+						style={{ width: `${20}%` }}
 						className='absolute h-1 bg-primary rounded-sm mt-4'
 					></div>
 					<div className='h-1 bg-open-grey rounded-sm mt-4'></div>
@@ -244,14 +244,14 @@ const MailScreen: React.FC = () => {
 	// Loading state
 	if (isLoading) {
 		return (
-			<>
+			<div className='dark:bg-grey-night'>
 				<Header mail={meQuery.data} />
 				<div className='h-px w-full bg-dark-grey60 mb-8' />
 				<div className='relative ml-24 mr-32 flex flex-col items-center'>
 					<div className='rounded-full border-4 w-32 h-32 absolute'></div>
 					<AiOutlineLoading className='text-9xl text-primary animate-spin' />
 				</div>
-			</>
+			</div>
 		);
 	}
 
@@ -260,7 +260,7 @@ const MailScreen: React.FC = () => {
 		const error = meQuery.error || mailQuery.error;
 		const errorTitle = error?.message;
 		return (
-			<>
+			<div className='dark:bg-grey-night'>
 				<Header mail={meQuery.data} />
 				<div className='h-px w-full bg-dark-grey60 mb-8' />
 				<div className='flex flex-col items-center my-8 mx-6 xs:mx-12 sm:mx-24'>
@@ -269,28 +269,28 @@ const MailScreen: React.FC = () => {
 						{errorTitle}
 					</h5>
 				</div>
-			</>
+			</div>
 		);
 	}
 
 	if (mailQuery.data!.length === 0) {
 		return (
-			<>
+			<div className='dark:bg-grey-night'>
 				<Header mail={meQuery.data} onSync={onSync} />
 				<div className='h-px w-full bg-dark-grey60 mb-8' />
 				<div className='flex flex-col items-center my-8 mx-6 xs:mx-12 sm:mx-24 text-center'>
-					<h5 className='text-subtext text-lg sm:text-xl md:text-2xl mt-6 sm:mt-12'>
+					<h5 className='text-subtext dark:text-gray-300 text-lg sm:text-xl md:text-2xl mt-6 sm:mt-12'>
 						No mail has been arrived to this e-mail address yet.
 					</h5>
 				</div>
-			</>
+			</div>
 		);
 	}
 
 	return (
-		<>
+		<div className='dark:bg-grey-night'>
 			<Header mail={meQuery.data} onSync={onSync} />
-			<div className='h-px w-full bg-dark-grey60 md:mb-8' />
+			<div className='h-px w-full bg-dark-grey60  md:mb-8' />
 			{/* md:ml-24 md:mr-32 md:pb-12 */}
 			<main className='md:ml-24 md:mr-32'>
 				{/* Break */}
@@ -314,7 +314,7 @@ const MailScreen: React.FC = () => {
 					/>
 				</div>
 			</main>
-		</>
+		</div>
 	);
 };
 
