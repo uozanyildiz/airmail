@@ -4,6 +4,7 @@
 	"private": true,
 	"packageManager": "yarn@1.22.22",
 	"dependencies": {
+		"@marsidev/react-turnstile": "^0.5.3",
 		"@reduxjs/toolkit": "^1.8.3",
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^13.3.0",

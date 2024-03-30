@@ -4,6 +4,7 @@ import { AiOutlineLoading } from 'react-icons/ai';
 import { FiRefreshCw } from 'react-icons/fi';
 import { FaSadTear } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { IDomainResponse, useDomain } from '../../hooks/query/useDomain';
 import { useRegister } from '../../hooks/query/useRegister';
 import { UserContext } from '../../context/userContext';
@@ -14,6 +15,7 @@ const password = generateRandomString();
 const MainScreen: React.FC = () => {
 	const [domain, setDomain] = useState('');
 	const [mailAddress, setMailAddress] = useState('');
+	const [turnstileStatus, setTurnstileStatus] = useState(false);
 	const navigate = useNavigate();
 	const userContext = useContext(UserContext);
 
@@ -103,14 +105,28 @@ const MainScreen: React.FC = () => {
 									</div>
 								</div>
 								{/* Start with this e-mail */}
-								<button
-									onClick={onStart}
-									className='mt-8 sm:mt-12 px-6 sm:px-8 py-3 sm:py-4 shadow-generic dark:shadow-transparent bg-primary dark:bg-primary-night font-semibold text-sm dark:text-gray-200 text-white rounded-lg hover:bg-primary-dark transition-colors duration-300'
-								>
-									Start with this e-mail
-								</button>
+
+								{turnstileStatus && (
+									<button
+										onClick={onStart}
+										className='mt-8 sm:mt-12 px-6 sm:px-8 py-3 sm:py-4 shadow-generic dark:shadow-transparent bg-primary dark:bg-primary-night font-semibold text-sm dark:text-gray-200 text-white rounded-lg hover:bg-primary-dark transition-colors duration-300'
+									>
+										Start with this e-mail
+									</button>
+								)}
+								{!turnstileStatus && (
+									<div className='mt-8 sm:mt-12 px-6 sm:px-8 py-3 sm:py-4'>
+										<Turnstile
+											siteKey='0x4AAAAAAAV9QbhgGyW5QMY6'
+											onSuccess={() => setTurnstileStatus(true)}
+											onExpire={() => setTurnstileStatus(false)}
+											onError={() => setTurnstileStatus(false)}
+										/>
+									</div>
+								)}
 							</>
 						)}
+
 					{/* Break */}
 					<div className='mt-16 w-screen bg-primary-dark dark:bg-primary-night opacity-60 h-px ' />
 					{/* About us */}
